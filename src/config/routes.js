@@ -8,6 +8,6 @@ const route = express.Router();
 route.post('/api/v1/login', jwtController.login);
 
 //Rota API-GPT
-route.get('/api/v1/chat', gptController.getChat);
+route.post('/api/v1/chat', gptController.getChat);
 
 module.exports = route;
