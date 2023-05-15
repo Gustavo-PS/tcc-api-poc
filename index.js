@@ -13,4 +13,4 @@ app.use(express.json());
 app.use(cors());
 app.use(routes);
 
-app.listen(port, () => {console.log(`Listening at ${port}`)})
+app.listen(port, () => {console.log(`Listening at: ${port}`)})
