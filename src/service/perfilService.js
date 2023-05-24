@@ -8,9 +8,9 @@ function mapearPerfil(respostas) {
     if (perfilKey.includes('1_1') || perfilKey.includes('2_2')) {
         perfil = 'iniciante';
     } else if (perfilKey.includes('3_3') || perfilKey.includes('4_4')) {
-        perfil = 'avançado';
+        perfil = 'avancado';
     } else {
-        perfil = 'intermediário';
+        perfil = 'intermediario';
     }
     return perfil;
 }
