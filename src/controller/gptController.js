@@ -6,18 +6,18 @@ require('dotenv').config();
 class gptController {
 
     async getChat(req, res) {
-        const perfilReq = req.body.perfil;
+        const chatHistorico = req.body.strChat;
         await jwtValidate.verifyJWT(req, res);
 
         if (res.statusCode != 200)
             return;
 
         else {
-            const respostaChat = await service.getChat(perfilReq);
+            const respostaChat = await service.getChat(chatHistorico);
             if (respostaChat.status === 200)
-                return res.status(respostaChat.status).json({ statusText: respostaChat.statusText, chatResponse: respostaChat.texto });
+                return res.status(respostaChat.status).json({ chatResponse: respostaChat.texto });
             else
-                return res.status(respostaChat.status).json({ statusText: respostaChat.statusText, errorMessage: respostaChat.texto })
+                return res.status(respostaChat.status).json({errorMessage: respostaChat.texto })
 
         }
     }
