@@ -15,7 +15,7 @@ class gptController {
         else {
             const respostaChat = await service.getChat(chatHistorico);
             if (respostaChat.status === 200)
-                return res.status(respostaChat.status).json({ chatResponse: respostaChat.texto });
+                return res.status(respostaChat.status).json({ chatResponse: respostaChat.texto, usage: respostaChat.usage });
             else
                 return res.status(respostaChat.status).json({errorMessage: respostaChat.texto })
 

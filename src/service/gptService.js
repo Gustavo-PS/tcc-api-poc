@@ -1,6 +1,6 @@
 require('dotenv').config();
-const { response } = require('express');
 const makerApiCall = require('./makerApiCall');
+const googleService = require('./googleService');
 const apiKey = process.env.OPENAI_API_KEY;
 const urlBase = process.env.ENDPOINT_BASE;
 
@@ -10,16 +10,20 @@ const headers = {
 };
 
 class gptService {
+    
     constructor() {
         this.makerApiCall = new makerApiCall();
+        this.googleService = new googleService();
     }
 
     async getChat(chatHistorico) {
 
         try {
-            const promptAppend = "\n\nApós esta conversa com o chatbot, o usuário necessita de 5 modelos de aparelhos celulares reais, com as seguintes informações:\nNome (String), Marca (String), Sistema Operacional (String), Tela (Tamanho (Number), Resolução (String) e Tecnologia (String)), Processador (String), Memória (Ram (Number) e Armazenamento (Number) em Giga), Câmera (Quantidade frontal (Number) Megapixel de cada frontal (Number), Quantidade Traseiro (Number) e Megapixel de cada traseira (Number)), Bateria em MaH (Number), Conectividade, Valor em Real (Number), Dimensões em Metros (Altura, Largura, Espessura) (Number), 3dmodel (null)\nMe responda somente com o código json, sendo todos os campos obrigatórios.";
+            const promptAppend = "\n\nAfter this conversation with the chatbot, the user needs 5 models of real cell phones, with the following information:\nName (String), Brand (String), Operating System (String), Screen (Size (Number), Resolution (String) and Technology (String)), Processor (String), Memory (Ram (Number) and Storage (Number) in Giga), Camera (Quantity front (Number) Megapixel of each front (Number), Quantity Rear (Number) and Megapixel of each rear (Number)), Battery in MaH (Number), Connectivity, Price in Brazilian Real (Number), Dimensions in Meters (Height, Width, Thickness) (Number), 3dmodel (null)\nAnswer me only with the json code based on the template provided below, all fields being mandatory.\nJSON template\n\"{\r\n\"type\": \"array\",\r\n\"items\": {\r\n\"type\": \"object\",\r\n\"properties\": {\r\n\"name\": {\r\n\"type\": \"string\"\r\n},\r\n\"brand\": {\r\n\"type\": \"string\"\r\n},\r\n\"operational_system\": {\r\n\"type\": \"string\"\r\n},\r\n\"screen\": {\r\n\"type\": \"object\",\r\n\"properties\": {\r\n\"size\": {\r\n\"type\": \"number\"\r\n},\r\n\"resolution\": {\r\n\"type\": \"string\"\r\n},\r\n\"technology\": {\r\n\"type\": \"string\"\r\n}\r\n},\r\n\"required\": [\r\n\"size\",\r\n\"resolution\",\r\n\"technology\"\r\n]\r\n},\r\n\"processor\": {\r\n\"type\": \"string\"\r\n},\r\n\"memory\": {\r\n\"type\": \"object\",\r\n\"properties\": {\r\n\"ram\": {\r\n\"type\": \"number\"\r\n},\r\n\"storage\": {\r\n\"type\": \"number\"\r\n}\r\n},\r\n\"required\": [\r\n\"ram\",\r\n\"storage\"\r\n]\r\n},\r\n\"camera\": {\r\n\"type\": \"object\",\r\n\"properties\": {\r\n\"front_amount\": {\r\n\"type\": \"number\"\r\n},\r\n\"front_megapixel\": {\r\n\"type\": \"number\"\r\n},\r\n\"rear_amount\": {\r\n\"type\": \"number\"\r\n},\r\n\"rear_megapixel\": {\r\n\"type\": \"array\",\r\n\"items\": {\r\n\"type\": \"number\"\r\n}\r\n}\r\n},\r\n\"required\": [\r\n\"front_amount\",\r\n\"front_megapixel\",\r\n\"rear_amount\",\r\n\"rear_megapixel\"\r\n]\r\n},\r\n\"battery\": {\r\n\"type\": \"number\"\r\n},\r\n\"connectivity\": {\r\n\"type\": \"array\",\r\n\"items\": {\r\n\"type\": \"string\"\r\n}\r\n},\r\n\"value\": {\r\n\"type\": \"number\"\r\n},\r\n\"dimensions\": {\r\n\"type\": \"object\",\r\n\"properties\": {\r\n\"height\": {\r\n\"type\": \"number\"\r\n},\r\n\"width\": {\r\n\"type\": \"number\"\r\n},\r\n\"thickness\": {\r\n\"type\": \"number\"\r\n}\r\n},\r\n\"required\": [\r\n\"height\",\r\n\"width\",\r\n\"thickness\"\r\n]\r\n},\r\n\"3dmodel\": null\r\n},\r\n\"required\": [\r\n\"name\",\r\n\"brand\",\r\n\"operational_system\",\r\n\"screen\",\r\n\"processor\",\r\n\"memory\",\r\n\"camera\",\r\n\"battery\",\r\n\"connectivity\",\r\n\"value\",\r\n\"dimensions\",\r\n\"3dmodel\"\r\n]\r\n}\r\n}";
 
-            var promptChat = chatHistorico + promptAppend;
+            const promptTraduzido = await this.googleService.traduzirTexto(chatHistorico);
+            var promptChat = promptTraduzido + promptAppend;
+
             const messages = [
                 {
                     role: 'system',
@@ -41,7 +45,7 @@ class gptService {
 
             if (responseOpenAI.status === 200) {
                 var json_Celulares = responseOpenAI.data.choices[0].message.content;
-                return { texto: JSON.parse(json_Celulares), status: responseOpenAI.status };
+                return { texto: JSON.parse(json_Celulares), status: responseOpenAI.status, usage: responseOpenAI.data.usage };
             }
             else {
                 return { texto: responseOpenAI.data, status: responseOpenAI.status };

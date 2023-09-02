@@ -20,6 +20,7 @@
     "json": "^11.0.0",
     "jsonwebtoken": "^9.0.0",
     "morgan": "^1.10.0",
+    "node-google-translate-skidz": "^1.1.2",
     "openai": "^3.2.1",
     "request": "^2.88.2",
     "typescript": "^5.0.4"
