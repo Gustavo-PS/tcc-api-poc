@@ -33,7 +33,7 @@ class gptService {
 
             const requestOptions = {
                 messages,
-                temperature: 0.7,
+                temperature: 0.1,
                 top_p: 0.95,
                 frequency_penalty: 0,
                 presence_penalty: 0,
