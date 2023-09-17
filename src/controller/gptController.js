@@ -21,6 +21,24 @@ class gptController {
 
         }
     }
+
+    async getChatDistinto(req, res) {
+        const chatHistorico = req.body.strChat;
+        const distincaoArray = req.body.arrayCelulares;
+        await jwtValidate.verifyJWT(req, res);
+
+        if (res.statusCode != 200)
+            return;
+
+        else {
+            const respostaChatDistinto = await service.getChatDistinto(chatHistorico, distincaoArray);
+            if (respostaChatDistinto.status === 200)
+                return res.status(respostaChatDistinto.status).json({ chatResponse: respostaChatDistinto.texto, usage: respostaChatDistinto.usage });
+            else
+                return res.status(respostaChatDistinto.status).json({errorMessage: respostaChatDistinto.texto })
+
+        }
+    }
 }
 module.exports = new gptController();
 

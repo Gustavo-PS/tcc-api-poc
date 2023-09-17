@@ -10,6 +10,9 @@ route.post('/api/v1/login', jwtController.login);
 //Rota API-GPT
 route.post('/api/v1/chat', gptController.getChat);
 
+//Rota API-GPT-CELULARES-DISTINTO
+route.post('/api/v1/chatdistinto', gptController.getChatDistinto);
+
 //Rota Storage Blob
 route.post('/api/v1/azure/storageblob', azureController.get3DModel);
 
