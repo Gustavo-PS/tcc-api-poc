@@ -81,14 +81,14 @@ class gptService {
                 stop: null,
             };
 
-            const responseOpenAI = await this.makerApiCall.makeApiCall(urlBase, requestOptions, headers);
+            const responseOpenAIDistinto = await this.makerApiCall.makeApiCall(urlBase, requestOptions, headers);
 
-            if (responseOpenAI.status === 200) {
-                var json_Celulares = responseOpenAI.data.choices[0].message.content;
-                return { texto: JSON.parse(json_Celulares), status: responseOpenAI.status, usage: responseOpenAI.data.usage };
+            if (responseOpenAIDistinto.status === 200) {
+                var json_Celulares = responseOpenAIDistinto.data.choices[0].message.content;
+                return { texto: JSON.parse(json_Celulares), status: responseOpenAIDistinto.status, usage: responseOpenAIDistinto.data.usage };
             }
             else {
-                return { texto: responseOpenAI.data, status: responseOpenAI.status };
+                return { texto: responseOpenAIDistinto.data, status: responseOpenAIDistinto.status };
             }
 
         } catch (error) {
