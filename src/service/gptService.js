@@ -1,6 +1,7 @@
 require('dotenv').config();
 const makerApiCall = require('./makerApiCall');
 const googleService = require('./googleService');
+const smartphoneService = require('./smartphoneService');
 const apiKey = process.env.OPENAI_API_KEY;
 const urlBase = process.env.ENDPOINT_BASE;
 
@@ -14,6 +15,7 @@ class gptService {
     constructor() {
         this.makerApiCall = new makerApiCall();
         this.googleService = new googleService();
+        this.smartphoneService = new smartphoneService();
     }
 
     async getChat(chatHistorico) {
@@ -42,10 +44,10 @@ class gptService {
             };
 
             const responseOpenAI = await this.makerApiCall.makeApiCall(urlBase, requestOptions, headers);
-
             if (responseOpenAI.status === 200) {
                 var json_Celulares = responseOpenAI.data.choices[0].message.content;
-                return { texto: JSON.parse(json_Celulares), status: responseOpenAI.status, usage: responseOpenAI.data.usage };
+                var jsonArrayReturnawait = await this.smartphoneService.createMobilePhones(JSON.parse(json_Celulares));
+                return { texto: jsonArrayReturnawait, status: responseOpenAI.status, usage: responseOpenAI.data.usage };
             }
             else {
                 return { texto: responseOpenAI.data, status: responseOpenAI.status };
@@ -85,6 +87,7 @@ class gptService {
 
             if (responseOpenAIDistinto.status === 200) {
                 var json_Celulares = responseOpenAIDistinto.data.choices[0].message.content;
+                var jsonArrayReturnawait = smartphoneService.createMobilePhones(json_Celulares);
                 return { texto: JSON.parse(json_Celulares), status: responseOpenAIDistinto.status, usage: responseOpenAIDistinto.data.usage };
             }
             else {
