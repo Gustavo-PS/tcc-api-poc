@@ -19,6 +19,20 @@ class makerApiCall {
             throw error;
         }
     }
+
+    async head(url) {
+        try {
+            const response = await axios.head(url);
+            return {
+                status: response.status,
+                headers: response.headers,
+            };
+        } catch (error) {
+            console.error('Erro na solicitação HEAD:', error.message);
+            throw error;
+        }
+    }
+    
 }
 
 module.exports = makerApiCall;

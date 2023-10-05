@@ -1,48 +1,56 @@
 const MobilePhone = require('../model/smartphones');
-const azureService = require('./azureService')
+const AzureService = require('./azureService');
 
-async function createMobilePhones(jsonData) {
-    const mobilePhones = [];
-    const roundToFourDecimals = (value) => Number(value.toFixed(4));
-    jsonData.forEach(async (jsonData) => {
-        const resultGLB = await azureService.get3DModel(jsonData.name.replace(/ /g, '_'));
-        const mobilePhone = new MobilePhone({
-            name: jsonData.name,
-            brand: jsonData.brand,
-            operational_system: jsonData.operational_system,
-            screen: {
-                size: roundToFourDecimals(jsonData.screen.size),
-                resolution: jsonData.screen.resolution,
-                technology: jsonData.screen.technology,
-            },
-            processor: jsonData.processor,
-            memory: {
-                ram: jsonData.memory.ram,
-                storage: jsonData.memory.storage,
-            },
-            camera: {
-                front_amount: jsonData.camera.front_amount,
-                front_megapixel: jsonData.camera.front_megapixel,
-                rear_amount: jsonData.camera.rear_amount,
-                rear_megapixel: jsonData.camera.rear_megapixel,
-            },
-            battery: jsonData.battery,
-            connectivity: jsonData.connectivity,
-            value: jsonData.value,
-            dimensions: {
-                height: roundToFourDecimals(jsonData.dimensions.height > 1 ? jsonData.dimensions.height / 100 : jsonData.dimensions.height),
-                width: jroundToFourDecimals(sonData.dimensions.width > 1 ? jsonData.dimensions.width / 100 : jsonData.dimensions.width),
-                thickness: roundToFourDecimals(jsonData.dimensions.thickness > 1 ? jsonData.dimensions.thickness / 100 : jsonData.dimensions.thickness),
-            },
-            _3dmodel: modelUrl
-        });
+class MobilePhoneService {
+    constructor() {
+        this.azureService = new AzureService();
+    }
 
-        mobilePhones.push(mobilePhone);
-    });
+    async createMobilePhones(jsonData) {
+        const mobilePhones = [];
+        const roundToFourDecimals = (value) => Number(value.toFixed(4));
 
-    return mobilePhones;
+        for (const jsonDataItem of jsonData) {
+            var modelName = jsonDataItem.name.replace(/ /g, '_');
+            modelName += '.glb';
+            const resultGLB = await this.azureService.get3DModel(modelName);
+            const modelUrl = resultGLB; // Certifique-se de obter a URL do resultado GLB corretamente.
+
+            const mobilePhone = new MobilePhone({
+                name: jsonDataItem.name,
+                brand: jsonDataItem.brand,
+                operational_system: jsonDataItem.operational_system,
+                screen: {
+                    size: roundToFourDecimals(jsonDataItem.screen.size),
+                    resolution: jsonDataItem.screen.resolution,
+                    technology: jsonDataItem.screen.technology,
+                },
+                processor: jsonDataItem.processor,
+                memory: {
+                    ram: jsonDataItem.memory.ram,
+                    storage: jsonDataItem.memory.storage,
+                },
+                camera: {
+                    front_amount: jsonDataItem.camera.front_amount,
+                    front_megapixel: jsonDataItem.camera.front_megapixel,
+                    rear_amount: jsonDataItem.camera.rear_amount,
+                    rear_megapixel: jsonDataItem.camera.rear_megapixel,
+                },
+                battery: jsonDataItem.battery,
+                connectivity: jsonDataItem.connectivity,
+                value: jsonDataItem.value,
+                dimensions: {
+                    height: roundToFourDecimals(jsonDataItem.dimensions.height > 1 ? jsonDataItem.dimensions.height / 100 : jsonDataItem.dimensions.height),
+                    width: roundToFourDecimals(jsonDataItem.dimensions.width > 1 ? jsonDataItem.dimensions.width / 100 : jsonDataItem.dimensions.width),
+                    thickness: roundToFourDecimals(jsonDataItem.dimensions.thickness > 1 ? jsonDataItem.dimensions.thickness / 100 : jsonDataItem.dimensions.thickness),
+                },
+                _3dmodel: modelUrl,
+            });
+
+            mobilePhones.push(mobilePhone);
+        }
+        return mobilePhones;
+    }
 }
 
-module.exports = {
-    createMobilePhones,
-};
+module.exports = MobilePhoneService;
