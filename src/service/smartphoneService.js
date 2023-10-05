@@ -42,7 +42,7 @@ class MobilePhoneService {
                 dimensions: {
                     height: roundToFourDecimals(jsonDataItem.dimensions.height > 1 ? jsonDataItem.dimensions.height / 100 : jsonDataItem.dimensions.height),
                     width: roundToFourDecimals(jsonDataItem.dimensions.width > 1 ? jsonDataItem.dimensions.width / 100 : jsonDataItem.dimensions.width),
-                    thickness: roundToFourDecimals(jsonDataItem.dimensions.thickness > 1 ? jsonDataItem.dimensions.thickness / 100 : jsonDataItem.dimensions.thickness),
+                    thickness: roundToFourDecimals(jsonDataItem.dimensions.thickness > 0.4 ? jsonDataItem.dimensions.thickness / 100 : jsonDataItem.dimensions.thickness),
                 },
                 _3dmodel: modelUrl,
             });
