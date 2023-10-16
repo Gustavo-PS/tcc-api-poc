@@ -29,7 +29,7 @@ class AzureService {
                 // Define as permissões e a duração de validade do SAS
                 const permissions = "r"; // r = Leitura
                 const expiryTime = new Date();
-                expiryTime.setMinutes(expiryTime.getMinutes() + 2); // Define a validade do SAS para 2 minutosf
+                expiryTime.setMinutes(expiryTime.getMinutes() + 180); // Define a validade do SAS para 2 minutosf
 
                 // Gera o token SAS
                 const sasToken = generateBlobSASQueryParameters({
