@@ -21,7 +21,7 @@ class AzureService {
 
             if (!blobExists) {
                 var urlDefault = await this.get3DModel('Phone_1x1x1.glb');
-                return urlDefault
+                return { urlArquivo: urlDefault, status: 200 }
             }
 
             else {
@@ -44,7 +44,7 @@ class AzureService {
                 const headResponse = await this.makerApi.head(blobUrl);
 
                 if (headResponse.status === 200) {
-                    return blobUrl
+                    return { urlArquivo: blobUrl, status: 200 }
                 } else {
                     throw new Error("Erro ao obter URL do arquivo")
                 }
