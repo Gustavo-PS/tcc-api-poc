@@ -14,7 +14,7 @@ class MobilePhoneService {
             var modelName = jsonDataItem.name.replace(/ /g, '_');
             modelName += '.glb';
             const resultGLB = await this.azureService.get3DModel(modelName);
-            const modelUrl = resultGLB;
+            const modelUrl = resultGLB.urlArquivo;
 
             const mobilePhone = new MobilePhone({
                 name: jsonDataItem.name,

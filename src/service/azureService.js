@@ -21,7 +21,7 @@ class AzureService {
 
             if (!blobExists) {
                 var urlDefault = await this.get3DModel('Phone_1x1x1.glb');
-                return { urlArquivo: urlDefault, status: 200 }
+                return { urlArquivo: urlDefault.urlArquivo, status: urlDefault.status }
             }
 
             else {
@@ -29,7 +29,7 @@ class AzureService {
                 // Define as permissões e a duração de validade do SAS
                 const permissions = "r"; // r = Leitura
                 const expiryTime = new Date();
-                expiryTime.setMinutes(expiryTime.getMinutes() + 180); // Define a validade do SAS para 2 minutosf
+                expiryTime.setMinutes(expiryTime.getMinutes() + 1140); // Define a validade do SAS para 2 minutosf
 
                 // Gera o token SAS
                 const sasToken = generateBlobSASQueryParameters({
