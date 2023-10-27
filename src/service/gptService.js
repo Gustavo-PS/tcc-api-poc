@@ -11,7 +11,7 @@ const headers = {
 };
 
 class gptService {
-    
+
     constructor() {
         this.makerApiCall = new makerApiCall();
         this.googleService = new googleService();
@@ -87,8 +87,8 @@ class gptService {
 
             if (responseOpenAIDistinto.status === 200) {
                 var json_Celulares = responseOpenAIDistinto.data.choices[0].message.content;
-                var jsonArrayReturnawait = smartphoneService.createMobilePhones(json_Celulares);
-                return { texto: JSON.parse(json_Celulares), status: responseOpenAIDistinto.status, usage: responseOpenAIDistinto.data.usage };
+                var jsonArrayReturnawait = this.smartphoneService.createMobilePhones(json_Celulares);
+                return { texto: jsonArrayReturnawait, status: responseOpenAI.status, usage: responseOpenAI.data.usage };
             }
             else {
                 return { texto: responseOpenAIDistinto.data, status: responseOpenAIDistinto.status };

@@ -15,6 +15,29 @@ class MobilePhoneService {
             modelName += '.glb';
             const resultGLB = await this.azureService.get3DModel(modelName);
             const modelUrl = resultGLB.urlArquivo;
+            var height, width, thickness;
+
+            if (jsonDataItem.dimensions.height > 1)
+                height = jsonDataItem.dimensions.height / 1000;
+            else if (jsonDataItem.dimensions.height < 1 && jsonDataItem.dimensions.height > 0.09)
+                height = jsonDataItem.dimensions.height / 100;
+            else
+                height = json.dimensions.height;
+
+            if (jsonDataItem.dimensions.width > 1)
+                width = jsonDataItem.dimensions.width / 1000;
+            else if (jsonDataItem.dimensions.width < 1 && jsonDataItem.dimensions.width > 0.09)
+                width = jsonDataItem.dimensions.width / 100;
+            else
+                width = json.dimensions.width;
+
+            if (jsonDataItem.dimensions.thickness > 1)
+                thickness = jsonDataItem.dimensions.thickness / 1000;
+            else if (jsonDataItem.dimensions.thickness < 1 && jsonDataItem.dimensions.thickness > 0.09)
+                thickness = jsonDataItem.dimensions.thickness / 100;
+            else
+                thickness = json.dimensions.thickness;
+
 
             const mobilePhone = new MobilePhone({
                 name: jsonDataItem.name,
@@ -40,9 +63,9 @@ class MobilePhoneService {
                 connectivity: jsonDataItem.connectivity,
                 value: jsonDataItem.value,
                 dimensions: {
-                    height: roundToFourDecimals(jsonDataItem.dimensions.height > 1 ? jsonDataItem.dimensions.height / 100 : jsonDataItem.dimensions.height),
-                    width: roundToFourDecimals(jsonDataItem.dimensions.width > 1 ? jsonDataItem.dimensions.width / 100 : jsonDataItem.dimensions.width),
-                    thickness: roundToFourDecimals(jsonDataItem.dimensions.thickness > 0.4 ? jsonDataItem.dimensions.thickness / 100 : jsonDataItem.dimensions.thickness),
+                    height: roundToFourDecimals(height),
+                    width: roundToFourDecimals(width),
+                    thickness: roundToFourDecimals(thickness),
                 },
                 _3dmodel: modelUrl,
             });
