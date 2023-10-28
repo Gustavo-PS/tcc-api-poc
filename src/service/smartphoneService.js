@@ -17,24 +17,24 @@ class MobilePhoneService {
             const modelUrl = resultGLB.urlArquivo;
             var height, width, thickness;
 
-            if (jsonDataItem.dimensions.height > 1)
+            if (jsonDataItem.dimensions.height >= 100)
+                height = jsonDataItem.dimensions.height / 1000;
+            else if (jsonDataItem.dimensions.height >= 1)
                 height = jsonDataItem.dimensions.height / 100;
-            else if (jsonDataItem.dimensions.height < 1 && jsonDataItem.dimensions.height > 0.09)
-                height = jsonDataItem.dimensions.height / 10;
             else
                 height = json.dimensions.height;
 
-            if (jsonDataItem.dimensions.width > 1)
+            if (jsonDataItem.dimensions.width >= 15)
+                width = jsonDataItem.dimensions.width / 1000;
+            else if (jsonDataItem.dimensions.width >= 1)
                 width = jsonDataItem.dimensions.width / 100;
-            else if (jsonDataItem.dimensions.width < 1 && jsonDataItem.dimensions.width > 0.09)
-                width = jsonDataItem.dimensions.width / 10;
             else
                 width = json.dimensions.width;
 
-            if (jsonDataItem.dimensions.thickness > 1)
+            if (jsonDataItem.dimensions.thickness >= 1.5)
+                thickness = jsonDataItem.dimensions.thickness / 1000;
+            else if (jsonDataItem.dimensions.thickness >=0.1)
                 thickness = jsonDataItem.dimensions.thickness / 100;
-            else if (jsonDataItem.dimensions.thickness < 1 && jsonDataItem.dimensions.thickness > 0.09)
-                thickness = jsonDataItem.dimensions.thickness / 10;
             else
                 thickness = json.dimensions.thickness;
 
