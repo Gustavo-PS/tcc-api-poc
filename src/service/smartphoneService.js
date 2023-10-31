@@ -22,21 +22,21 @@ class MobilePhoneService {
             else if (jsonDataItem.dimensions.height >= 1)
                 height = jsonDataItem.dimensions.height / 100;
             else
-                height = json.dimensions.height;
+                height = jsonDataItem.dimensions.height;
 
             if (jsonDataItem.dimensions.width >= 15)
                 width = jsonDataItem.dimensions.width / 1000;
             else if (jsonDataItem.dimensions.width >= 1)
                 width = jsonDataItem.dimensions.width / 100;
             else
-                width = json.dimensions.width;
+                width = jsonDataItem.dimensions.width;
 
             if (jsonDataItem.dimensions.thickness >= 1.5)
                 thickness = jsonDataItem.dimensions.thickness / 1000;
             else if (jsonDataItem.dimensions.thickness >=0.1)
                 thickness = jsonDataItem.dimensions.thickness / 100;
             else
-                thickness = json.dimensions.thickness;
+                thickness = jsonDataItem.dimensions.thickness;
 
 
             const mobilePhone = new MobilePhone({
