@@ -89,8 +89,8 @@ class gptService {
 
             if (responseOpenAIDistinto.status === 200) {
                 var json_Celulares = responseOpenAIDistinto.data.choices[0].message.content;
-                var jsonArrayReturnawait = this.smartphoneService.createMobilePhones(json_Celulares);
-                return { texto: jsonArrayReturnawait, status: responseOpenAI.status, usage: responseOpenAI.data.usage };
+                var jsonArrayReturnawait = await this.smartphoneService.createMobilePhones(JSON.parse(json_Celulares));
+                return { texto: jsonArrayReturnawait, status: responseOpenAIDistinto.status, usage: responseOpenAIDistinto.data.usage };
             }
             else {
                 return { texto: responseOpenAIDistinto.data, status: responseOpenAIDistinto.status };
